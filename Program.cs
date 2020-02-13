@@ -13,17 +13,18 @@ namespace DeckOCards
       Console.WriteLine("Welcome to my Deck of Cards! Let me pick a card for you...");
       Console.WriteLine();
 
-      var suit = new string[] { "Clubs", "Diamonds", "Hearts", "Spades" };
-      var value = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
-      var card = "";
-      var deck = new List<string>();
-      var playerHand = new List<string>();
+      var suits = new string[] { "Clubs", "Diamonds", "Hearts", "Spades" };
+      var ranks = new string[] { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
+      var deck = new List<Card>();
+      var playerHand = new List<Card>();
 
-      for (var i = 0; i < suit.Length; i++)
+      for (var i = 0; i < suits.Length; i++)
       {
-        for (var j = 0; j < value.Length; j++)
+        for (var j = 0; j < ranks.Length; j++)
         {
-          card = ($"{value[j]} of {suit[i]}");
+          var card = new Card();
+          card.Rank = ranks[j];
+          card.Suit = suits[i];
           deck.Add(card);
         }
       }
@@ -37,7 +38,7 @@ namespace DeckOCards
         deck[i] = (temp);
       }
 
-      Console.WriteLine($"Your card is the {deck[0]}");
+      Console.WriteLine($"Your card is the {deck[0].DisplayCard()}");
       Console.WriteLine();
 
       playerHand.Add(deck[0]);
@@ -48,8 +49,17 @@ namespace DeckOCards
       while (!hitMe && deck.Count > 0)
       {
         Console.WriteLine("Would you like to draw the next card or quit?");
-        Console.WriteLine("Please select: Next or Quit...");
         Console.WriteLine();
+        var total = 0;
+
+        for (var i = 0; i < playerHand.Count; i++)
+        {
+          total += playerHand[i].GetCardValue();
+        }
+
+        Console.WriteLine($"The current total is {total}");
+        Console.WriteLine();
+
 
         var userInput = Console.ReadLine().ToLower();
         if (userInput != "next" && userInput != "quit")
@@ -59,7 +69,7 @@ namespace DeckOCards
         }
         if (userInput == "next")
         {
-          Console.WriteLine($"Your next card is {deck[0]}");
+          Console.WriteLine($"Your next card is {deck[0].DisplayCard()}");
           Console.WriteLine();
 
           playerHand.Add(deck[0]);
@@ -71,7 +81,7 @@ namespace DeckOCards
 
           for (var i = 0; i < playerHand.Count; i++)
           {
-            Console.WriteLine(playerHand[i]);
+            Console.WriteLine(playerHand[i].DisplayCard());
           }
 
           Console.WriteLine();
