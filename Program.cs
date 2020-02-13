@@ -45,13 +45,18 @@ namespace DeckOCards
 
 
       bool hitMe = false;
-      while (!hitMe)
+      while (!hitMe && deck.Count > 0)
       {
         Console.WriteLine("Would you like to draw the next card or quit?");
         Console.WriteLine("Please select: Next or Quit...");
         Console.WriteLine();
 
         var userInput = Console.ReadLine().ToLower();
+        if (userInput != "next" && userInput != "quit")
+        {
+          Console.WriteLine("That is not a valid response ...");
+          Console.WriteLine();
+        }
         if (userInput == "next")
         {
           Console.WriteLine($"Your next card is {deck[0]}");
